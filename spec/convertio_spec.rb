@@ -14,8 +14,16 @@ RSpec.describe Convertio do
       expect(described_class.convert(1, from: :km, to: :mi)).to be_within(0.001).of(0.621371)
     end
 
-    it "throws an error for invalid conversions" do
-      expect { described_class.convert(1, from: :l, to: :km) }.to raise_error(Convertio::Error)
+    it "throws NoUnitError for invalid types" do
+      expect { described_class.convert(1, from: :l, to: :km) }.to raise_error(Convertio::NoUnitError)
+    end
+
+    it "throws TypeMismatchError for invalid conversions" do
+      expect { described_class.convert(1, from: :lb, to: :km) }.to raise_error(Convertio::TypeMismatchError)
+    end
+
+    it "throws error if distance is negative" do
+      expect { described_class.convert(-1, from: :mi, to: :km) }.to raise_error(StandardError, "Distance cannot be negative")
     end
   end
 end
