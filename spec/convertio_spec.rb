@@ -23,7 +23,9 @@ RSpec.describe Convertio do
     end
 
     it "throws error if distance is negative" do
-      expect { described_class.convert(-1, from: :mi, to: :km) }.to raise_error(StandardError, "Distance cannot be negative")
+      expect do
+        described_class.convert(-1, from: :mi, to: :km)
+      end.to raise_error(StandardError, "Distance cannot be negative")
     end
   end
 end
